@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Button, Card, Form } from 'react-bootstrap';
 import { isEmpty, size } from 'lodash';
 
@@ -8,14 +8,27 @@ function Todo({ todo, index, removeTodo })
     <div className="todo">
       <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>{todo.text}</span>
       <div>
-      <Button variant="outline-danger" onClick={() => removeTodo(index)}>✕</Button>
+      <Button variant="outline-danger" onClick={() => removeTodo(index,todo)}>✕</Button>
       </div>
     </div> 
   );
 }
   
 function FormTodo({ addTodo }) {
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState([]);
+
+  const requestOptionsput = {
+    method: "PUT",
+    body: JSON.stringify([{
+      "label": value,
+      "done": false,
+    }]),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+  
+
   const handleSubmit = e => 
   {
     e.preventDefault();
@@ -26,40 +39,28 @@ function FormTodo({ addTodo }) {
       setValue("");
     }
 
-    const postData = {
-      "label": value,
-      "done": false,
-    };
-
-    fetch('https://assets.breatheco.de/apis/fake/todos/user/alesanchezr', {
-      method: "PUT",
-      body: JSON.stringify(postData),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(resp => {
-          console.log(resp.ok); // Será true (verdad) si la respuesta es exitosa.
-          console.log(resp.status); // el código de estado = 200 o código = 400 etc.
-          console.log(resp.text()); // Intentará devolver el resultado exacto como cadena (string)
-          return resp.json(); // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
-    })
-    .then(data => {
-          //Aquí es donde debe comenzar tu código después de que finalice la búsqueda
-          console.log(data); //esto imprimirá en la consola el objeto exacto recibido del servidor
-    })
-    .catch(error => {
-          //manejo de errores
-          console.log(error);
-    });
-    /*
-    React.componentDidMount() {
-      console.log("Le composant App est monté sur le DOM !");
-      //this.fetchData();
-    }*/
+    fetch('https://assets.breatheco.de/apis/fake/todos/user/alesanchezr',requestOptionsput)
+      .then(resp => {
+            console.log(resp.ok); // Será true (verdad) si la respuesta es exitosa.
+            console.log(resp.status); // el código de estado = 200 o código = 400 etc.
+            /*console.log(resp.text()); */// Intentará devolver el resultado exacto como cadena (string)
+            return resp.json(); // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
+      })
+      .then(data => {
+            //Aquí es donde debe comenzar tu código después de que finalice la búsqueda
+            console.log('Esto es el body', data); //esto imprimirá en la consola el objeto exacto recibido del servidor
+      })
+      .catch(error => {
+            //manejo de errores
+            console.log(error);
+      });
       
   };
   
+  /*useEffect(() => {
+    handleSubmit(event)
+  });*/
+
     return (
       <Form onSubmit={handleSubmit}> 
       <Form.Group>
@@ -81,15 +82,24 @@ function App()
     const newTodos = [...todos, { text }];
     setTodos(newTodos);
   };
-  
-  /*const markTodo = index => {
-    const newTodos = [...todos];
-    newTodos[index].isDone = true;
-    setTodos(newTodos);
-  };*/
 
   const removeTodo = index => {
     const newTodos = [...todos];
+    const todoss = [...todos,{ index }];
+
+    /*useEffect(() => 
+    {*/
+        // DELETE request using fetch with set headers
+        const requestOptions = {
+            method: 'DELETE',
+            headers: { 
+                'Authorization': 'Bearer my-token',
+                'My-Custom-Header': 'foobar'
+            }
+        };
+        fetch(`https://assets.breatheco.de/apis/fake/todos/user/alesanchezr`, requestOptions)
+            .then(() => setStatus('Delete successful'));
+    /*}, []);*/
     newTodos.splice(index, 1);
     setTodos(newTodos);
   };

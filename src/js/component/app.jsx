@@ -47,8 +47,8 @@ function FormTodo({ addTodo }) {
             return resp.json(); // (regresa una promesa) will try to parse the result as json as return a promise that you can .then for results
       })
       .then(data => {
-            //Aquí es donde debe comenzar tu código después de que finalice la búsqueda
-            console.log('Esto es el body', data); //esto imprimirá en la consola el objeto exacto recibido del servidor
+            //Aquí es donde debe comenzar tu código del body
+            console.log(data); //esto imprimirá en la consola el objeto exacto recibido del servidor
       })
       .catch(error => {
             //manejo de errores

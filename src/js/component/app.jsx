@@ -8,7 +8,7 @@ function Todo({ todo, index, removeTodo })
     <div className="todo">
       <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>{todo.text}</span>
       <div>
-      <Button variant="outline-danger" onClick={() => removeTodo(index,todo)}>✕</Button>
+      <Button variant="outline-danger" onClick={() => removeTodo(index)}>✕</Button>
       </div>
     </div> 
   );
@@ -85,7 +85,6 @@ function App()
 
   const removeTodo = index => {
     const newTodos = [...todos];
-    const todoss = [...todos,{ index }];
 
     /*useEffect(() => 
     {*/
@@ -97,7 +96,7 @@ function App()
                 'My-Custom-Header': 'foobar'
             }
         };
-        fetch(`https://assets.breatheco.de/apis/fake/todos/user/alesanchezr`, requestOptions)
+        fetch('https://assets.breatheco.de/apis/fake/todos/user/alesanchezr', requestOptions)
             .then(() => setStatus('Delete successful'));
     /*}, []);*/
     newTodos.splice(index, 1);

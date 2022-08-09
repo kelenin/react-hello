@@ -1,17 +1,6 @@
 import React, {useEffect} from 'react';
-import { Button, Form, Card } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { isEmpty, size } from 'lodash';
-/*function Todo({ todo, index }) 
-{
-  return (
-    <div className="todo">
-      <span style={{ textDecoration: todo.isDone ? "line-through" : "" }}>{todo}</span>
-      <div>
-      <Button variant="outline-danger" onClick={() => removeTodo(index)}>✕</Button>
-      </div>
-    </div> 
-  );
-}*/
 
 function FormTodo() 
 {

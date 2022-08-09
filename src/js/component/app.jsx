@@ -100,15 +100,15 @@ function App()
     setTodos(newTodos);
   };*/
 
-  const removeTodo = (index,todo) => {
+  const removeTodo = (index) => {
     const newTodos = todos.filter((todo,todoindex) => index!=todoindex);
-    const newTodoss = [...todos, { todo }];
+    //const newTodoss = [...todos, { todo }];
 
         // DELETE request using fetch with set headers
         const requestOptions = {
             method: 'PUT',
             body: JSON.stringify([{
-              "label": todo,
+              "label": todos,
               "done": false,
             }]),
             headers: {
@@ -128,12 +128,12 @@ function App()
   };
 
   
-  /*return (
-    <div className="app">
+  return (
+    /*<div className="app">
       <div className="container">
         <h1 className="text-center mb-4">Todo List</h1>
         <FormTodo addTodo={addTodo} />
-        {
+        {*/
           size(todos) == 0 ? (
             <h5 className="text-center">No hay tareas, añadir tareas</h5>
           ) :
@@ -154,10 +154,10 @@ function App()
             </div>
           )
 
-        }
+        /*}
       </div>
-    </div>
-  );*/
+    </div>*/
+  );
 
 
 }
